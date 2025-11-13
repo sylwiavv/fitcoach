@@ -1,0 +1,68 @@
+.react-calendar {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: "Urbanist", sans-serif;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.react-calendar__navigation button {
+  color: #222;
+  background-color: #f4f7f8; /* ghost-white */
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.react-calendar__navigation button:hover {
+  background-color: #fff8e7; /* vanilla */
+}
+
+.react-calendar__tile {
+  background: transparent;
+  border-radius: 12px;
+  padding: 0.75rem 0;
+  transition: all 0.2s ease;
+  text-align: center;
+  color: #1b1b1b; /* eerieBlack */
+}
+
+.react-calendar__tile:enabled:hover {
+  background-color: #fff8e7; /* vanilla */
+}
+
+.react-calendar__tile--now {
+  background-color: #e6f4ea; /* honey-dew */
+  border: 2px solid #c4e8ce;
+}
+
+.react-calendar__tile--active {
+  background-color: #b7e4c7; /* honey-dew strong */
+  color: #1b1b1b;
+  font-weight: 600;
+}
+
+.has-training {
+  position: relative;
+}
+
+.has-training::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #1b1b1b; /* eerieBlack dot */
+}
+
+abbr:where([title]) {
+  text-decoration: none;
+}

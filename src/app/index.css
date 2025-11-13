@@ -1,0 +1,29 @@
+/* body {
+  font-family: "Urbanist", sans-serif;
+  /* background-color: theme("colors.vanilla");
+  color: theme("colors.eerieBlack"); */
+
+/* @import "tailwindcss";
+@config "./../../tailwind.config.js";
+@reference "tailwindcss"; */
+
+/* @layer base {
+  body {
+    @apply font-sans bg-vanilla text-eerieBlack;
+    font-family: "Urbanist", sans-serif;
+  }
+} */
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+@reference "tailwindcss";
+
+@layer base {
+  body {
+    @apply font-sans;
+    font-family: "Urbanist", sans-serif;
+    background-color: #efefef;
+    padding: 24px;
+    height: 100%;
+    width: 100%;
+  }
+}
