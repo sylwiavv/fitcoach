@@ -1,14 +1,17 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import FitnesIcon from '../../../app/assets/FitnesIcon';
 
 export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const links = [
-    { to: "/", label: "Dashboard" },
-    { to: "/clients", label: "Clients" },
-    { to: "/user", label: "My Profile" },
+    { to: '/', label: 'Dashboard' },
+    { to: '/clients', label: 'Clients' },
+    { to: '/', label: 'Clients' },
+    { to: '/add-workout', label: 'Workouts' },
+    { to: '/user', label: 'My Profile' },
   ];
 
   const activeIndex = links.findIndex((link) => link.to === location.pathname);
@@ -20,7 +23,11 @@ export const Navbar = () => {
 
   return (
     <div className="flex justify-center items-center gap-4">
-      <h4 className="font-bold text-xl text-eerieBlack">FitCoach</h4>
+      <div className="flex gap-2 justify-between items-center">
+        <FitnesIcon />
+        <h4 className="font-bold text-xl text-eerieBlack">FitCoach</h4>
+      </div>
+
       <div>
         <div className="relative flex bg-ghost-white shadow-sm p-1 rounded-full w-[600px] max-w-[90%] transition-all">
           {gliderPosition >= 0 && (
@@ -38,8 +45,8 @@ export const Navbar = () => {
               onClick={() => navigate(link.to)}
               className={`relative flex-1 z-10 h-[48px] flex items-center justify-center font-medium text-lg rounded-full transition-all duration-300 ${
                 activeIndex === index
-                  ? "text-eerieBlack font-semibold"
-                  : "text-gray-500 hover:text-eerieBlack hover:bg-vanilla hover:cursor-pointer"
+                  ? 'text-eerieBlack font-semibold'
+                  : 'text-gray-500 hover:text-eerieBlack hover:bg-vanilla hover:cursor-pointer'
               }`}
             >
               {link.label}

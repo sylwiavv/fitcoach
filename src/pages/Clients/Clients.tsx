@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useClients } from "../../entities/clients/api";
+import AddClientButton from "../../components/AddClientButton";
 
 const ClientsPage: React.FC = () => {
   // const clients = [
@@ -29,51 +30,54 @@ const ClientsPage: React.FC = () => {
     );
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Podopieczni</h1>
-      <table className="min-w-full bg-alice-blue p-4 rounded-2xl">
-        <thead className="text-left font-bold">
-          <tr>
-            <th className="px-4 py-2 border-b border-ghost-white">Avatar</th>
-            <th className="px-4 py-2 border-b border-ghost-white">Imię</th>
-            <th className="px-4 py-2 border-b border-ghost-white">
-              Postęp (%)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {clients?.map((client, index) => {
-            const isLast = index === clients.length - 1;
-            return (
-              <tr
-                key={client.id}
-                className="cursor-pointer hover:bg-vanilla"
-                onClick={() => navigate(`/client/${client.id}`)}
-              >
-                <td
-                  className={`px-4 py-2 ${!isLast ? "border-b border-ghost-white" : ""}`}
+    <div className="flex flex-col gap-4">
+      <AddClientButton />
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Podopieczni</h1>
+        <table className="min-w-full bg-alice-blue p-4 rounded-2xl">
+          <thead className="text-left font-bold">
+            <tr>
+              <th className="px-4 py-2 border-b border-ghost-white">Avatar</th>
+              <th className="px-4 py-2 border-b border-ghost-white">Imię</th>
+              <th className="px-4 py-2 border-b border-ghost-white">
+                Postęp (%)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {clients?.map((client, index) => {
+              const isLast = index === clients.length - 1;
+              return (
+                <tr
+                  key={client.id}
+                  className="cursor-pointer hover:bg-vanilla"
+                  onClick={() => navigate(`/client/${client.id}`)}
                 >
-                  <img
-                    src={client.avatar}
-                    alt={client.name}
-                    className="w-12 h-12 rounded-full"
-                  />
-                </td>
-                <td
-                  className={`px-4 py-2 ${!isLast ? "border-b border-ghost-white" : ""}`}
-                >
-                  {client.name}
-                </td>
-                <td
-                  className={`px-4 ${!isLast ? "border-b border-ghost-white" : ""}`}
-                >
-                  {client.progress}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td
+                    className={`px-4 py-2 ${!isLast ? "border-b border-ghost-white" : ""}`}
+                  >
+                    <img
+                      src={client.avatar}
+                      alt={client.name}
+                      className="w-12 h-12 rounded-full"
+                    />
+                  </td>
+                  <td
+                    className={`px-4 py-2 ${!isLast ? "border-b border-ghost-white" : ""}`}
+                  >
+                    {client.name}
+                  </td>
+                  <td
+                    className={`px-4 ${!isLast ? "border-b border-ghost-white" : ""}`}
+                  >
+                    {client.progress}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
