@@ -1,5 +1,6 @@
-import { supabase } from '../../shared/lib/supabase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import { supabase } from '../../shared/lib/supabase';
 import type { Clients } from '../clients/types';
 import type { Client } from './types';
 
@@ -17,7 +18,7 @@ export const useClients = () => {
   });
 };
 
-export const addClient = async (client: Omit<Clients, 'id'>) => {
+export const addClient = async (client: Omit<Clients, 'client_id'>) => {
   const { data, error } = await supabase.from('Clients').insert([client]).select();
   if (error) throw new Error(error.message);
   return data;
@@ -34,16 +35,20 @@ export const useAddClient = () => {
   });
 };
 
-export const fetchClient = async (id: number): Promise<Client> => {
-  const { data, error } = await supabase.from('Clients').select('*').eq('id', id).single();
+export const fetchClient = async (client_id: string): Promise<Client> => {
+  const { data, error } = await supabase
+    .from('Clients')
+    .select('*')
+    .eq('client_id', client_id)
+    .single();
   if (error) throw new Error(error.message);
   return data;
 };
 
-export const useClient = (id: number) => {
+export const useClient = (client_id: string) => {
   return useQuery({
-    queryKey: ['client', id],
-    queryFn: () => fetchClient(id),
+    queryKey: ['client', client_id],
+    queryFn: () => fetchClient(client_id),
     staleTime: 5 * 60 * 1000,
   });
 };

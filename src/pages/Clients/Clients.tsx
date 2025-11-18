@@ -1,80 +1,99 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useClients } from "../../entities/clients/api";
-import AddClientButton from "../../components/AddClientButton";
+import type { ColumnDef } from '@tanstack/react-table';
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import AddClientButton from '../../components/AddClientButton';
+import { useClients } from '../../entities/client/api';
+import { YearlyProgressChart } from '../../widgets/YearlyProgressChart/YearlyProgressChart';
+
+type ClientRow = {
+  id: number;
+  name: string;
+  avatar: string;
+  progress: string;
+};
 
 const ClientsPage: React.FC = () => {
-  // const clients = [
-  //   {
-  //     name: "Test",
-  //     avatar:
-  //       "https://thumbs.dreamstime.com/b/funny-horse-wild-eyes-eyed-closeup-looking-camera-87714945.jpg",
-  //     progress: "5%",
-  //     id: 2,
-  //   },
-  //   {
-  //     name: "Test 4",
-  //     avatar:
-  //       "https://images.unsplash.com/photo-1551884831-bbf3cdc6469e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZnVubnklMjBob3JzZXxlbnwwfHwwfHx8MA%3D%3D&fm=jpg&q=60&w=3000",
-  //     progress: "50%",
-  //     id: 9,
-  //   },
-  // ];
   const { data: clients, isLoading, isError, error } = useClients();
   const navigate = useNavigate();
 
+  const data = useMemo<ClientRow[]>(() => clients || [], [clients]);
+
+  const columns = useMemo<ColumnDef<ClientRow>[]>(
+    () => [
+      {
+        accessorKey: 'avatar',
+        header: 'Avatar',
+        cell: ({ row }) => (
+          <img
+            src={row.original.avatar}
+            alt={row.original.name}
+            className="w-12 h-12 rounded-full"
+          />
+        ),
+      },
+      {
+        accessorKey: 'name',
+        header: 'Imię',
+      },
+      {
+        accessorKey: 'created_at',
+        header: 'Registered',
+        cell: ({ getValue }) => {
+          const date = new Date(getValue() as string);
+          return date.toISOString().split('T')[0];
+        },
+      },
+    ],
+    [],
+  );
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
   if (isLoading) return <div className="p-6">Ładowanie podopiecznych...</div>;
-  if (isError)
-    return (
-      <div className="p-6 text-red-500">Błąd: {(error as Error).message}</div>
-    );
+  if (isError) return <div className="p-6 text-red-500">Błąd: {(error as Error).message}</div>;
 
   return (
     <div className="flex flex-col gap-4">
       <AddClientButton />
-      <div>
-        <h1 className="text-2xl font-bold mb-4">Podopieczni</h1>
+      <YearlyProgressChart workouts={[]} />
+
+      <h1 className="text-2xl font-bold mb-4">Podopieczni</h1>
+
+      <div className="overflow-x-auto">
         <table className="min-w-full bg-alice-blue p-4 rounded-2xl">
-          <thead className="text-left font-bold">
-            <tr>
-              <th className="px-4 py-2 border-b border-ghost-white">Avatar</th>
-              <th className="px-4 py-2 border-b border-ghost-white">Imię</th>
-              <th className="px-4 py-2 border-b border-ghost-white">
-                Postęp (%)
-              </th>
-            </tr>
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id} className="px-4 py-2 text-left border-b border-ghost-white">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </th>
+                ))}
+              </tr>
+            ))}
           </thead>
           <tbody>
-            {clients?.map((client, index) => {
-              const isLast = index === clients.length - 1;
-              return (
-                <tr
-                  key={client.id}
-                  className="cursor-pointer hover:bg-vanilla"
-                  onClick={() => navigate(`/client/${client.id}`)}
-                >
-                  <td
-                    className={`px-4 py-2 ${!isLast ? "border-b border-ghost-white" : ""}`}
-                  >
-                    <img
-                      src={client.avatar}
-                      alt={client.name}
-                      className="w-12 h-12 rounded-full"
-                    />
+            {table.getRowModel().rows.map((row) => (
+              <tr
+                key={row.id}
+                className="cursor-pointer hover:bg-vanilla"
+                onClick={() => navigate(`/client/${row.original.id}`)}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="px-4 py-2 border-b border-ghost-white">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
-                  <td
-                    className={`px-4 py-2 ${!isLast ? "border-b border-ghost-white" : ""}`}
-                  >
-                    {client.name}
-                  </td>
-                  <td
-                    className={`px-4 ${!isLast ? "border-b border-ghost-white" : ""}`}
-                  >
-                    {client.progress}
-                  </td>
-                </tr>
-              );
-            })}
+                ))}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

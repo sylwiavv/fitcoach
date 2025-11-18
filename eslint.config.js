@@ -1,38 +1,34 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import tsParser from '@typescript-eslint/parser';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import importPlugin from 'eslint-plugin-import';
+import unusedImports from 'eslint-plugin-unused-imports';
 
-export default defineConfig([
-  globalIgnores(['dist', 'node_modules']),
+export default [
   {
-    files: ['**/*.{ts,tsx}'],
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      '@typescript-eslint': tsPlugin,
-    },
-    extends: [
-      js.configs.recommended,
-      tsPlugin.configs.recommended,
-      react.configs.recommended,
-      reactHooks.configs.recommended,
-    ],
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: [],
     languageOptions: {
-      ecmaVersion: 2020,
-      sourceType: 'module',
-      globals: globals.browser,
-    },
-    rules: {
-      'react/react-in-jsx-scope': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-    },
-    settings: {
-      react: {
-        version: 'detect',
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
       },
     },
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+      import: importPlugin,
+      'unused-imports': unusedImports,
+    },
+    rules: {
+      // sortowanie importów
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+
+      // usuwanie duplikatów importów
+      'import/no-duplicates': 'error',
+
+      // usuwanie nieużywanych importów
+      'unused-imports/no-unused-imports': 'error',
+    },
   },
-]);
+];

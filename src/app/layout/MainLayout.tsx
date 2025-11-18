@@ -1,5 +1,6 @@
-import { Outlet } from "react-router-dom";
-import { Navbar } from "../../widgets/Navbar";
+import { Outlet } from 'react-router-dom';
+
+import { Navbar } from '../../widgets/Navbar';
 
 export const MainLayout = () => {
   return (

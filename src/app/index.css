@@ -13,14 +13,14 @@
     font-family: "Urbanist", sans-serif;
   }
 } */
-@import "tailwindcss";
+@import 'tailwindcss';
 @config "../../tailwind.config.js";
 @reference "tailwindcss";
 
 @layer base {
   body {
     @apply font-sans;
-    font-family: "Urbanist", sans-serif;
+    font-family: 'Urbanist', sans-serif;
     background-color: #efefef;
     padding: 24px;
     height: 100%;

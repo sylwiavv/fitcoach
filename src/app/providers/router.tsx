@@ -1,11 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { MainLayout } from '../layout/MainLayout';
-import { DashboardPage } from '../../pages/Dashboard/DashboardPage';
-import { TrainingDayPage } from '../../pages/TrainingDay/TrainingDayPage';
+
+import AddClientPage from '../../pages/AddNewCLient/AddNewClientPage';
 import ClientPage from '../../pages/Client/ClientPage';
 import ClientsPage from '../../pages/Clients/Clients';
-import AddClientPage from '../../pages/AddNewCLient/AddNewClientPage';
+import { DashboardPage } from '../../pages/Dashboard/DashboardPage';
 import AddWorkoutPage from '../../pages/PlanWorkout/PlanWorkoutPage';
+import { TrainingDayPage } from '../../pages/TrainingDay/TrainingDayPage';
+import { MainLayout } from '../layout/MainLayout';
 
 export const router = createBrowserRouter([
   {

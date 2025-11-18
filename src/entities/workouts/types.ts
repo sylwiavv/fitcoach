@@ -1,4 +1,4 @@
-export interface Workouts {
+export interface Workout {
   id: string;
   client_id: number;
   date: Date;

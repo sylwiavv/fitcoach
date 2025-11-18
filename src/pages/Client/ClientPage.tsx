@@ -1,21 +1,24 @@
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './../../app/styles/calendar.css';
-import { useClient } from '../../entities/client/api';
+
+import { useState } from 'react';
+import Calendar from 'react-calendar';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import ProgressBar from '../../components/ProgressBar';
+import { useClient } from '../../entities/client/api';
 import { useWorkouts } from '../../entities/workouts/api';
+import { MonthlyProgressChart } from '../../widgets/MonthlyProgressChart/MonthlyProgressChart';
 
 const ClientPage: React.FC = () => {
   const { clientId } = useParams<{ clientId: string }>();
-  const clientIdNumber = Number(clientId);
+  console.log(clientId);
   const [date, setDate] = useState(new Date());
   const navigate = useNavigate();
 
-  const clientQuery = useClient(clientIdNumber);
+  const clientQuery = useClient(clientId);
 
-  const workoutsQuery = useWorkouts(clientIdNumber);
+  const workoutsQuery = useWorkouts(clientId);
 
   const { data: client, isLoading, isError, error } = clientQuery;
   const { data: workouts } = workoutsQuery;
@@ -28,7 +31,7 @@ const ClientPage: React.FC = () => {
   };
 
   const onDayClick = (value: Date) => {
-    navigate(`/client/${clientIdNumber}/training/${formatDate(value)}`);
+    navigate(`/client/${clientId}/training/${formatDate(value)}`);
   };
 
   if (isLoading) return <div>Ładowanie podopiecznego...</div>;
@@ -48,7 +51,6 @@ const ClientPage: React.FC = () => {
       {client?.avatar && (
         <img src={client.avatar} alt={client.name} className="w-32 h-32 rounded-full mb-4" />
       )}
-
       {Object.entries(workoutsByMonth).map(([monthKey, monthWorkouts]) => {
         const totalPlanned = monthWorkouts?.length;
         const completedCount = monthWorkouts?.filter((w) => w.completed).length;
@@ -66,6 +68,7 @@ const ClientPage: React.FC = () => {
           </div>
         );
       })}
+      <MonthlyProgressChart workouts={workouts || []} />
 
       <div className="calendar-container bg-ghost-white p-6 rounded-2xl shadow-md mt-6">
         <Calendar

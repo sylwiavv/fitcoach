@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import { useAddClient } from "../../entities/client/api";
+import React, { useState } from 'react';
+
+import { useAddClient } from '../../entities/client/api';
 
 const AddClientPage: React.FC = () => {
   const addClientMutation = useAddClient();
 
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [progress, setProgress] = useState("");
+  const [name, setName] = useState('');
+  const [avatar, setAvatar] = useState('');
+  const [progress, setProgress] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!name || !progress) {
-      alert("Podaj imię i postęp klienta!");
+      alert('Podaj imię i postęp klienta!');
       return;
     }
 
@@ -22,9 +23,9 @@ const AddClientPage: React.FC = () => {
       progress,
     });
 
-    setName("");
-    setAvatar("");
-    setProgress("");
+    setName('');
+    setAvatar('');
+    setProgress('');
   };
 
   return (
@@ -63,13 +64,11 @@ const AddClientPage: React.FC = () => {
           className="bg-blue-500 text-white p-2 rounded"
           disabled={addClientMutation.isLoading}
         >
-          {addClientMutation.isLoading ? "Dodawanie..." : "Dodaj klienta"}
+          {addClientMutation.isLoading ? 'Dodawanie...' : 'Dodaj klienta'}
         </button>
 
         {addClientMutation.isError && (
-          <p className="text-red-500 mt-2">
-            Błąd: {(addClientMutation.error as Error).message}
-          </p>
+          <p className="text-red-500 mt-2">Błąd: {(addClientMutation.error as Error).message}</p>
         )}
 
         {addClientMutation.isSuccess && (
