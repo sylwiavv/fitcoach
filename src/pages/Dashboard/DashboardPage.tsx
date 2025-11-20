@@ -1,1 +1,3 @@
-export const DashboardPage: React.FC = () => <h1>DashboardPage</h1>;
+import { YearlyProgressChart } from '../../widgets/YearlyProgressChart/YearlyProgressChart';
+
+export const DashboardPage: React.FC = () => <YearlyProgressChart workouts={[]} />;

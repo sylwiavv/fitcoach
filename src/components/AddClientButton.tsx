@@ -11,9 +11,9 @@ const AddClientButton: React.FC = () => {
   return (
     <button
       onClick={handleClick}
-      className="flex items-center justify-center bg-eerie-black text-ghost-white rounded-full w-50 h-50"
+      className="flex items-center justify-center bg-eerie-black text-ghost-white rounded-full w-8 h-8"
     >
-      <span className="text-xl font-bold">+</span>
+      <span className="text-xl">+</span>
     </button>
   );
 };

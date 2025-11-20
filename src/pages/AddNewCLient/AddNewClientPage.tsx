@@ -7,35 +7,29 @@ const AddClientPage: React.FC = () => {
 
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState('');
-  const [progress, setProgress] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !progress) {
-      alert('Podaj imię i postęp klienta!');
+    if (!name) {
+      alert('Enter a name');
       return;
     }
 
-    addClientMutation.mutate({
-      name,
-      avatar,
-      progress,
-    });
+    addClientMutation.mutate({ name, avatar });
 
     setName('');
     setAvatar('');
-    setProgress('');
   };
 
   return (
     <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Dodaj nowego klienta</h2>
+      <h2 className="text-xl font-bold mb-4">Add New Client</h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
-          placeholder="Imię klienta"
+          placeholder="Client name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="border p-2 rounded"
@@ -44,35 +38,26 @@ const AddClientPage: React.FC = () => {
 
         <input
           type="text"
-          placeholder="URL avatar"
+          placeholder="Avatar URL"
           value={avatar}
           onChange={(e) => setAvatar(e.target.value)}
           className="border p-2 rounded"
         />
 
-        <input
-          type="text"
-          placeholder="Postęp (np. 50%)"
-          value={progress}
-          onChange={(e) => setProgress(e.target.value)}
-          className="border p-2 rounded"
-          required
-        />
-
         <button
           type="submit"
           className="bg-blue-500 text-white p-2 rounded"
-          disabled={addClientMutation.isLoading}
+          disabled={addClientMutation.isPending}
         >
-          {addClientMutation.isLoading ? 'Dodawanie...' : 'Dodaj klienta'}
+          {addClientMutation.isPending ? 'Adding...' : 'Add Client'}
         </button>
 
         {addClientMutation.isError && (
-          <p className="text-red-500 mt-2">Błąd: {(addClientMutation.error as Error).message}</p>
+          <p className="text-red-500 mt-2">Error: {(addClientMutation.error as Error).message}</p>
         )}
 
         {addClientMutation.isSuccess && (
-          <p className="text-green-500 mt-2">Klient został dodany!</p>
+          <p className="text-green-500 mt-2">Client added successfully!</p>
         )}
       </form>
     </div>

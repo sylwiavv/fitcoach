@@ -5,22 +5,15 @@ import { useNavigate } from 'react-router-dom';
 
 import AddClientButton from '../../components/AddClientButton';
 import { useClients } from '../../entities/client/api';
-import { YearlyProgressChart } from '../../widgets/YearlyProgressChart/YearlyProgressChart';
-
-type ClientRow = {
-  id: number;
-  name: string;
-  avatar: string;
-  progress: string;
-};
+import type { Client } from '../../entities/client/types';
 
 const ClientsPage: React.FC = () => {
   const { data: clients, isLoading, isError, error } = useClients();
   const navigate = useNavigate();
 
-  const data = useMemo<ClientRow[]>(() => clients || [], [clients]);
+  const data = useMemo<Client[]>(() => clients || [], [clients]);
 
-  const columns = useMemo<ColumnDef<ClientRow>[]>(
+  const columns = useMemo<ColumnDef<Client>[]>(
     () => [
       {
         accessorKey: 'avatar',
@@ -35,13 +28,15 @@ const ClientsPage: React.FC = () => {
       },
       {
         accessorKey: 'name',
-        header: 'Imię',
+        header: 'Name',
       },
       {
         accessorKey: 'created_at',
         header: 'Registered',
         cell: ({ getValue }) => {
-          const date = new Date(getValue() as string);
+          const dateStr = getValue() as string;
+          if (!dateStr) return '-';
+          const date = new Date(dateStr);
           return date.toISOString().split('T')[0];
         },
       },
@@ -55,15 +50,16 @@ const ClientsPage: React.FC = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (isLoading) return <div className="p-6">Ładowanie podopiecznych...</div>;
-  if (isError) return <div className="p-6 text-red-500">Błąd: {(error as Error).message}</div>;
+  if (isLoading) return <div className="p-6">Loading clients...</div>;
+  if (isError) return <div className="p-6 text-red-500">Error: {(error as Error).message}</div>;
 
   return (
     <div className="flex flex-col gap-4">
-      <AddClientButton />
-      <YearlyProgressChart workouts={[]} />
-
-      <h1 className="text-2xl font-bold mb-4">Podopieczni</h1>
+      <h1 className="text-2xl font-bold mb-4">Clients</h1>
+      <div className="flex gap-2 items-center justify-end">
+        <AddClientButton />
+        <h4>Add new Client</h4>
+      </div>
 
       <div className="overflow-x-auto">
         <table className="min-w-full bg-alice-blue p-4 rounded-2xl">

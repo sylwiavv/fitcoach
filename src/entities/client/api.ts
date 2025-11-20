@@ -18,7 +18,7 @@ export const useClients = () => {
   });
 };
 
-export const addClient = async (client: Omit<Clients, 'client_id'>) => {
+export const addClient = async (client: Omit<Clients, 'id'>) => {
   const { data, error } = await supabase.from('Clients').insert([client]).select();
   if (error) throw new Error(error.message);
   return data;
@@ -35,12 +35,8 @@ export const useAddClient = () => {
   });
 };
 
-export const fetchClient = async (client_id: string): Promise<Client> => {
-  const { data, error } = await supabase
-    .from('Clients')
-    .select('*')
-    .eq('client_id', client_id)
-    .single();
+export const fetchClient = async (id: string): Promise<Client> => {
+  const { data, error } = await supabase.from('Clients').select('*').eq('id', id).single();
   if (error) throw new Error(error.message);
   return data;
 };

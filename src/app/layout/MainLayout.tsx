@@ -4,9 +4,9 @@ import { Navbar } from '../../widgets/Navbar';
 
 export const MainLayout = () => {
   return (
-    <div className="min-h-screen bg-ghostWhite text-eerieBlack">
+    <div className="min-h-screen text-eerieBlack grid grid-cols-[200px_minmax(900px,_1fr)_100px]">
       <Navbar />
-      <main className="py-8">
+      <main className="p-8">
         <Outlet />
       </main>
     </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FitnesIcon from '../../../app/assets/FitnesIcon';
+import DateTimeNow from '../../DateTimeNow';
 
 export const Navbar = () => {
   const location = useLocation();
@@ -12,6 +13,7 @@ export const Navbar = () => {
     { to: '/clients', label: 'Clients' },
     { to: '/add-workout', label: 'Workouts' },
     { to: '/user', label: 'My Profile' },
+    { to: '/add-exercise', label: 'Add Exercise' },
   ];
 
   const activeIndex = links.findIndex((link) => link.to === location.pathname);
@@ -22,37 +24,39 @@ export const Navbar = () => {
   }, [activeIndex]);
 
   return (
-    <div className="flex items-center gap-4 justify-between ">
-      <div className="flex gap-2 items-center">
+    <div className="bg-ghost-white p-4">
+      <div className="flex gap-2 items-center mb-12">
         <FitnesIcon />
         <h4 className="font-bold text-xl text-eerieBlack">FitCoach</h4>
       </div>
 
-      <div>
-        <div className="relative flex p-1 rounded-full w-[600px] max-w-[90%] transition-all">
-          {gliderPosition >= 0 && (
-            <span
-              className="absolute top-1 left-1 h-[46px] w-[calc(33.33%-0.5rem)] bg-honey-dew rounded-full transition-transform duration-300 ease-out"
-              style={{
-                transform: `translateX(${gliderPosition * 100}%)`,
-              }}
-            />
-          )}
+      <div className="mb-10 py-2 px-4">
+        <DateTimeNow />
+      </div>
 
-          {links.map((link, index) => (
-            <button
-              key={link.to}
-              onClick={() => navigate(link.to)}
-              className={`relative flex-1 z-10 h-[48px] flex items-center justify-center font-medium text-lg rounded-full transition-all duration-300 ${
-                activeIndex === index
-                  ? 'text-eerieBlack font-semibold'
-                  : 'hover:bg-vanilla hover:cursor-pointer'
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
-        </div>
+      <div className="relative transition-all flex gap-2 flex-col">
+        {gliderPosition >= 0 && (
+          <span
+            className="absolute top-1 left-1 w-[calc(33.33%-0.5rem)] bg-honey-dew rounded-full transition-transform duration-300 ease-out"
+            style={{
+              transform: `translateX(${gliderPosition * 100}%)`,
+            }}
+          />
+        )}
+
+        {links.map((link, index) => (
+          <button
+            key={link.to}
+            onClick={() => navigate(link.to)}
+            className={`relative  z-10 rounded-sm transition-all duration-300 w-full text-left py-2 px-4 ${
+              activeIndex === index
+                ? 'text-ghost-white bg-eerie-black'
+                : 'hover:bg-vanilla hover:cursor-pointer'
+            }`}
+          >
+            {link.label}
+          </button>
+        ))}
       </div>
     </div>
   );
