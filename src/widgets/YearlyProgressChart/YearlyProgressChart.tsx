@@ -9,7 +9,7 @@ type YearlyProgressChartProps = {
 export const YearlyProgressChart: React.FC<YearlyProgressChartProps> = ({ workouts }) => {
   if (!workouts) return null;
 
-  const months = Array.from({ length: 12 }, (_, i) => i); // 0-11
+  const months = Array.from({ length: 12 }, (_, i) => i);
   const data = months.map((month) => {
     const monthWorkouts = workouts.filter((w) => new Date(w.date).getMonth() === month);
     const completed = monthWorkouts.filter((w) => w.completed).length;

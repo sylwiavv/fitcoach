@@ -8,6 +8,7 @@ import {
   FitnesIcon,
   WorkoutIcon,
 } from '../../../app/assets';
+import Exercises from '../../../app/assets/Exercises';
 import DateTimeNow from '../../DateTimeNow';
 
 export const Navbar = () => {
@@ -20,6 +21,7 @@ export const Navbar = () => {
     { to: '/add-workout', label: 'Workouts', icon: <WorkoutIcon /> },
     // { to: '/user', label: 'My Profile' },
     { to: '/add-exercise', label: 'Add Exercise', icon: <AddExercise /> },
+    { to: '/exercises', label: 'Exercises', icon: <Exercises /> },
   ];
 
   const activeIndex = links.findIndex((link) => link.to === location.pathname);

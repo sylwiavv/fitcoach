@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 
+import { useExercises } from '../entities/exercises/api';
 import { useAssignExerciseToClient } from '../entities/workouts/api';
 
 type Props = {
   clientId: string;
   date: string;
-  exercises: { id: string; name: string }[];
 };
 
-const AddExerciseToClient: React.FC<Props> = ({ clientId, date, exercises }) => {
+const AddExerciseToClient: React.FC<Props> = ({ clientId, date }) => {
+  const { data: exercisesData, isLoading, isError, error } = useExercises();
+
   const [exerciseId, setExerciseId] = useState('');
   const [sets, setSets] = useState(3);
   const [reps, setReps] = useState(10);
@@ -19,17 +21,12 @@ const AddExerciseToClient: React.FC<Props> = ({ clientId, date, exercises }) => 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    mutation.mutate({
-      clientId,
-      date,
-      exerciseId,
-      sets,
-      reps,
-      load,
-      notes,
-    });
+    mutation.mutate({ clientId, date, exerciseId, sets, reps, load, notes });
   };
+
+  if (isLoading) return <div>Loading exercises...</div>;
+  if (isError)
+    return <div className="text-red-500">Error fetching exercises: {(error as Error).message}</div>;
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm">
@@ -40,7 +37,7 @@ const AddExerciseToClient: React.FC<Props> = ({ clientId, date, exercises }) => 
         className="border p-2 rounded"
       >
         <option value="">Select exercise...</option>
-        {exercises.map((ex) => (
+        {exercisesData?.map((ex) => (
           <option key={ex.id} value={ex.id}>
             {ex.name}
           </option>
@@ -55,7 +52,6 @@ const AddExerciseToClient: React.FC<Props> = ({ clientId, date, exercises }) => 
         className="border p-2 rounded"
         placeholder="Sets"
       />
-
       <input
         type="number"
         value={reps}
@@ -64,7 +60,6 @@ const AddExerciseToClient: React.FC<Props> = ({ clientId, date, exercises }) => 
         className="border p-2 rounded"
         placeholder="Reps"
       />
-
       <input
         type="number"
         value={load}
@@ -73,7 +68,6 @@ const AddExerciseToClient: React.FC<Props> = ({ clientId, date, exercises }) => 
         className="border p-2 rounded"
         placeholder="Load (kg)"
       />
-
       <textarea
         value={notes}
         onChange={(e) => setNotes(e.target.value)}

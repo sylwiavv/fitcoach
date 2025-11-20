@@ -6,6 +6,7 @@ import AddClientPage from '../../pages/AddNewCLient/AddNewClientPage';
 import ClientPage from '../../pages/Client/ClientPage';
 import ClientsPage from '../../pages/Clients/Clients';
 import { DashboardPage } from '../../pages/Dashboard/DashboardPage';
+import { ExercisesPage } from '../../pages/ExercisesPage/ExercisesPage';
 import AddWorkoutPage from '../../pages/PlanWorkout/PlanWorkoutPage';
 import { MainLayout } from '../layout/MainLayout';
 
@@ -18,11 +19,8 @@ export const router = createBrowserRouter([
       { path: '/clients', element: <ClientsPage /> },
       { path: '/client/:clientId', element: <ClientPage /> },
       { path: '/clients/add', element: <AddClientPage /> },
-      {
-        path: '/client/:clientId/training/:date',
-        element: <AddWorkoutPage />,
-      },
       { path: '/add-exercise', element: <AddExercisePage /> },
+      { path: '/add-workout', element: <AddWorkoutPage /> },
       {
         path: '/clients/:clientId/:date/add-exercise',
         element: <AddExercisePage />,
@@ -30,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: '/client/:clientId/training/:date',
         element: <AddExerciseToClientPage />,
+      },
+      {
+        path: '/exercises',
+        element: <ExercisesPage />,
       },
     ],
   },
