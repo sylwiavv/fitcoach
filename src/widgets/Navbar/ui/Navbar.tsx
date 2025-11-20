@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import FitnesIcon from '../../../app/assets/FitnesIcon';
+import {
+  AddExercise,
+  ClientsIcon,
+  DashboardIcon,
+  FitnesIcon,
+  WorkoutIcon,
+} from '../../../app/assets';
 import DateTimeNow from '../../DateTimeNow';
 
 export const Navbar = () => {
@@ -9,11 +15,11 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const links = [
-    { to: '/', label: 'Dashboard' },
-    { to: '/clients', label: 'Clients' },
-    { to: '/add-workout', label: 'Workouts' },
-    { to: '/user', label: 'My Profile' },
-    { to: '/add-exercise', label: 'Add Exercise' },
+    { to: '/', label: 'Dashboard', icon: <DashboardIcon /> },
+    { to: '/clients', label: 'Clients', icon: <ClientsIcon /> },
+    { to: '/add-workout', label: 'Workouts', icon: <WorkoutIcon /> },
+    // { to: '/user', label: 'My Profile' },
+    { to: '/add-exercise', label: 'Add Exercise', icon: <AddExercise /> },
   ];
 
   const activeIndex = links.findIndex((link) => link.to === location.pathname);
@@ -24,7 +30,7 @@ export const Navbar = () => {
   }, [activeIndex]);
 
   return (
-    <div className="bg-ghost-white p-4">
+    <div className="bg-alice-blue p-4">
       <div className="flex gap-2 items-center mb-12">
         <FitnesIcon />
         <h4 className="font-bold text-xl text-eerieBlack">FitCoach</h4>
@@ -44,19 +50,32 @@ export const Navbar = () => {
           />
         )}
 
-        {links.map((link, index) => (
-          <button
-            key={link.to}
-            onClick={() => navigate(link.to)}
-            className={`relative  z-10 rounded-sm transition-all duration-300 w-full text-left py-2 px-4 ${
-              activeIndex === index
-                ? 'text-ghost-white bg-eerie-black'
-                : 'hover:bg-vanilla hover:cursor-pointer'
-            }`}
-          >
-            {link.label}
-          </button>
-        ))}
+        {links.map(({ to, label, icon }, index) => {
+          const isActive = activeIndex === index;
+
+          return (
+            <button
+              key={to}
+              onClick={() => navigate(to)}
+              className={`
+                flex gap-3 items-center relative z-10 rounded-sm w-full
+                py-2 px-4 transition-all duration-300 text-left
+                ${isActive ? 'bg-eerie-black' : 'hover:bg-vanilla hover:cursor-pointer'}
+              `}
+            >
+              <span
+                className={`w-6 h-6 flex items-center ${isActive ? 'text-vanilla' : 'text-eerie-black'}`}
+              >
+                {icon}
+              </span>
+              <span
+                className={`text-base font-medium ${isActive ? 'text-ghost-white' : 'text-eerie-black'}`}
+              >
+                {label}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
