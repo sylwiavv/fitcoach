@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useExercises } from '../../entities/exercises/api';
+import { useExercises } from '../../entities/exercises/model/queries';
 import { BackButton } from '../../shared/ui';
 
 export const ExercisesPage: React.FC = () => {

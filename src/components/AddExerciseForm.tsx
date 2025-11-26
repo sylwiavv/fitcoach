@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useAddExercise } from '../entities/exercises/api';
+import { useAddExercise } from '../entities/exercises/model/queries';
 import { InputField } from '../shared/ui/InputFIeld';
 
 const AddExerciseForm: React.FC = () => {

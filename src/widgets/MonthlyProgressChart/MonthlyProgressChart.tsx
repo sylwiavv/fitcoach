@@ -1,6 +1,6 @@
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-import type { Workout } from '../../entities/workouts/types';
+import type { Workout } from '../../entities/workout/model/types';
 
 type MonthlyProgressChartProps = {
   workouts?: Workout[];

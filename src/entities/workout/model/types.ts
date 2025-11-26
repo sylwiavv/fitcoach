@@ -47,3 +47,13 @@ export type NewExercise = {
   notes?: string | null;
   image_url?: string | null;
 };
+
+export type AssignExercisePayload = {
+  clientId: string;
+  date: string;
+  exerciseId: string;
+  sets: number;
+  reps: number;
+  load: number;
+  notes?: string | null;
+};

@@ -1,8 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import { CompletedIcon, UnCheckedIcon } from '../app/assets';
-import { useWorkoutExercises } from '../entities/exercises/api';
-import { useMarkExerciseCompleted } from '../entities/workouts/api';
+import { useMarkExerciseCompleted, useWorkoutExercises } from '../entities/workout';
 
 export const ExercisesInWorkout = () => {
   const { clientId, date } = useParams<{ clientId: string; date: string }>();
@@ -22,6 +21,7 @@ export const ExercisesInWorkout = () => {
 
       {workoutExercises.map((ex) => (
         <li key={ex.id} className="flex justify-between items-center">
+          {console.log(ex)}
           <span>
             {ex.exercise?.name} — {ex.sets}×{ex.reps} {ex.load ? `, ${ex.load}kg` : ''}
           </span>

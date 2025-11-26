@@ -4,8 +4,7 @@ import { useParams } from 'react-router-dom';
 import { CompletedIcon, UnCheckedIcon } from '../../app/assets';
 import AddExerciseToClientForm from '../../components/AddExerciseToClientForm';
 import { ExercisesInWorkout } from '../../components/ExercisesInWorkout';
-import { useWorkoutExercises } from '../../entities/exercises/api';
-import { useMarkWorkoutCompleted, useWorkout } from '../../entities/workouts/api';
+import { useMarkWorkoutCompleted, useWorkout, useWorkoutExercises } from '../../entities/workout';
 
 const AddExerciseToClientPage: React.FC = () => {
   const { clientId, date } = useParams<{ clientId: string; date: string }>();
@@ -47,9 +46,7 @@ const AddExerciseToClientPage: React.FC = () => {
         </div>
       )}
 
-      <div
-        className={`p-6 max-w-xl rounded-md ${workout?.completed ? 'bg-honey-dew' : 'bg-vanilla'}`}
-      >
+      <div className={`p-6 rounded-md ${workout?.completed ? 'bg-honey-dew' : 'bg-vanilla'}`}>
         {workoutExercises.length === 0 ? (
           <p className="text-gray-500">No exercises yet.</p>
         ) : (

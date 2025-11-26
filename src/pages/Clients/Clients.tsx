@@ -4,8 +4,8 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import AddClientButton from '../../components/AddClientButton';
-import { useClients } from '../../entities/client/api';
 import type { Client } from '../../entities/client/types';
+import { useClients } from '../../entities/clients/model/queries';
 
 const ClientsPage: React.FC = () => {
   const { data: clients, isLoading, isError, error } = useClients();

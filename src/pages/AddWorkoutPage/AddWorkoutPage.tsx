@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { useClients } from '../../entities/client/api';
-import { useCreateWorkoutForDay } from '../../entities/workouts/api';
+import { useClients } from '../../entities/clients/model/queries';
+import { useCreateWorkoutForDay } from '../../entities/workout';
 import { BackButton } from '../../shared/ui';
 import { InputField } from '../../shared/ui/InputFIeld';
 

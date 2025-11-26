@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { useExercises } from '../entities/exercises/api';
-import { useAssignExerciseToClient } from '../entities/workouts/api';
+import { useExercises } from '../entities/exercises/model/queries';
+import { useAssignExerciseToClient } from '../entities/workout';
 import { InputField } from '../shared/ui/InputFIeld';
 
 type Props = {

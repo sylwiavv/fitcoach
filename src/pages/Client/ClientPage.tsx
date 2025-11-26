@@ -7,8 +7,8 @@ import type { Value } from 'react-calendar/dist/shared/types.js';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import ProgressBar from '../../components/ProgressBar';
-import { useClient } from '../../entities/client/api';
-import { useWorkoutsByClient } from '../../entities/workouts/api';
+import { useClient } from '../../entities/clients/model/queries';
+import { useWorkoutsByClient } from '../../entities/workout';
 import { BackButton } from '../../shared/ui';
 import { MonthlyProgressChart } from '../../widgets/MonthlyProgressChart/MonthlyProgressChart';
 
@@ -62,7 +62,7 @@ const ClientPage: React.FC = () => {
     <>
       <BackButton />
 
-      <div className="flex items-center gap-8 mt-4">
+      <div className="flex items-center gap-8">
         {client?.avatar && (
           <img src={client.avatar} alt={client.name} className="w-20 h-20 rounded-full mb-4" />
         )}

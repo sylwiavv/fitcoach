@@ -9,7 +9,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import { useClients } from '../../entities/client/api';
+import { useClients } from '../../entities/clients/model/queries';
 
 export const YearlyClientsChart: React.FC = () => {
   const { data: clients, isLoading, isError, error } = useClients();

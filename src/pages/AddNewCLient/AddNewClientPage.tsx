@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useAddClient } from '../../entities/client/api';
+import { useAddClient } from '../../entities/clients/model/queries';
 
 const AddClientPage: React.FC = () => {
   const addClientMutation = useAddClient();
