@@ -18,7 +18,7 @@ export const Navbar = () => {
   const links = [
     { to: '/', label: 'Dashboard', icon: <DashboardIcon /> },
     { to: '/clients', label: 'Clients', icon: <ClientsIcon /> },
-    { to: '/add-workout', label: 'Workouts', icon: <WorkoutIcon /> },
+    { to: '/add-workout', label: 'Add Workout', icon: <WorkoutIcon /> },
     // { to: '/user', label: 'My Profile' },
     { to: '/add-exercise', label: 'Add Exercise', icon: <AddExercise /> },
     { to: '/exercises', label: 'Exercises', icon: <Exercises /> },

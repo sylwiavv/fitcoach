@@ -23,7 +23,7 @@ const AddClientPage: React.FC = () => {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
+    <div className="p-6">
       <h2 className="text-xl font-bold mb-4">Add New Client</h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

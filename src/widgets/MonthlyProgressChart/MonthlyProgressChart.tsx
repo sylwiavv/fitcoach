@@ -27,19 +27,19 @@ export const MonthlyProgressChart: React.FC<MonthlyProgressChartProps> = ({
     const monthName = new Date(year, Number(monthIndex)).toLocaleString('en-EN', {
       month: 'short',
     });
-    return { month: monthName, ukończone: completed, planowane: total };
+    return { month: monthName, completed, planned: total };
   });
 
   return (
     <div className="h-64 bg-white p-4 rounded shadow mt-6">
-      <h2 className="text-lg font-semibold mb-4">Progres roczny ({year})</h2>
+      <h2 className="text-lg font-semibold mb-4">Annual progress ({year})</h2>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>
           <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="ukończone" fill="#4ade80" />
-          <Bar dataKey="planowane" fill="#60a5fa" />
+          <Bar dataKey="completed" fill="#f0f0a4" />
+          <Bar dataKey="planned" fill="#777b7e" />
         </BarChart>
       </ResponsiveContainer>
     </div>

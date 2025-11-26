@@ -29,6 +29,7 @@ export type ClientWorkoutExercise = {
 };
 
 export type NewWorkoutExercise = {
+  name: string;
   exerciseId: string;
   sets: number;
   reps: number;
@@ -39,4 +40,10 @@ export type AddWorkoutPayload = {
   clientId: string;
   date: string;
   exercises: NewWorkoutExercise[];
+};
+
+export type NewExercise = {
+  name: string;
+  notes?: string | null;
+  image_url?: string | null;
 };

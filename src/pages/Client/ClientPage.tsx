@@ -8,11 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import ProgressBar from '../../components/ProgressBar';
 import { useClient } from '../../entities/client/api';
-import {
-  useCreateWorkoutForDay,
-  useExercisesByDate,
-  useWorkoutsByClient,
-} from '../../entities/workouts/api';
+import { useWorkoutsByClient } from '../../entities/workouts/api';
+import { BackButton } from '../../shared/ui';
 import { MonthlyProgressChart } from '../../widgets/MonthlyProgressChart/MonthlyProgressChart';
 
 const ClientPage: React.FC = () => {
@@ -31,20 +28,17 @@ const ClientPage: React.FC = () => {
 
   const { data: client, isLoading, isError, error } = useClient(clientId);
   const { data: workouts = [] } = useWorkoutsByClient(clientId);
-  // const { data: exercises = [], refetch: refetchExercises } = useExercisesByDate(
-  const { refetch: refetchExercises } = useExercisesByDate(clientId, formatDate(date));
-
-  const createWorkoutMutation = useCreateWorkoutForDay({
-    onSuccess: () => {
-      refetchExercises();
-    },
-  });
-
   const handleDayClick = (value: Date) => {
     const dateStr = formatDate(value);
-    createWorkoutMutation.mutate({ clientId, date: dateStr });
     setDate(value);
-    navigate(`/client/${clientId}/training/${dateStr}`);
+
+    const existingWorkout = workouts.find((w) => w.date === dateStr);
+
+    if (existingWorkout) {
+      navigate(`/client/${clientId}/training/${dateStr}`);
+    } else {
+      navigate(`/client/${clientId}/add-workout?date=${dateStr}`);
+    }
   };
 
   if (isLoading) return <div>Loading client...</div>;
@@ -65,29 +59,15 @@ const ClientPage: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6 text-eerieBlack">Client {client?.name}</h1>
+    <>
+      <BackButton />
 
-      {client?.avatar && (
-        <img src={client.avatar} alt={client.name} className="w-32 h-32 rounded-full mb-4" />
-      )}
-
-      <button
-        className="px-2 py-1 bg-green-500 text-white rounded mb-4"
-        onClick={() => navigate(`/clients/${clientId}/add-exercise`)}
-      >
-        Add Exercise
-      </button>
-
-      {/* <div className="mt-4">
-        <h3 className="font-semibold mb-2">Exercises for {formatDate(date)}:</h3>
-        {exercises.length === 0 && <div>No exercises</div>}
-        {exercises.map((ex) => (
-          <div key={ex.id}>
-            {ex.exercise?.name} — {ex.sets}x{ex.reps}, {ex.load} kg
-          </div>
-        ))}
-      </div> */}
+      <div className="flex items-center gap-8 mt-4">
+        {client?.avatar && (
+          <img src={client.avatar} alt={client.name} className="w-20 h-20 rounded-full mb-4" />
+        )}
+        <h1 className="text-2xl font-bold mb-6 text-eerieBlack">{client?.name}</h1>
+      </div>
 
       {Object.entries(workoutsByMonth).map(([monthKey, monthWorkouts]) => {
         const totalPlanned = monthWorkouts.length;
@@ -121,7 +101,7 @@ const ClientPage: React.FC = () => {
           }}
         />
       </div>
-    </div>
+    </>
   );
 };
 

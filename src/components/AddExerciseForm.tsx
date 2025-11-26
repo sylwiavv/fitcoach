@@ -1,51 +1,51 @@
 import React, { useState } from 'react';
 
 import { useAddExercise } from '../entities/exercises/api';
+import { InputField } from '../shared/ui/InputFIeld';
 
 const AddExerciseForm: React.FC = () => {
-  const [name, setName] = useState('');
-  const [notes, setNotes] = useState('');
-  const [image, setImage] = useState('');
-
+  const [form, setForm] = useState({ name: '', notes: '', image: '' });
   const mutation = useAddExercise();
+
+  const fields = [
+    {
+      name: 'name',
+      label: 'Exercise Name',
+      type: 'text',
+      placeholder: 'Exercise name',
+      required: true,
+    },
+    { name: 'notes', label: 'Notes', type: 'textarea', placeholder: 'Notes (optional)' },
+    { name: 'image', label: 'Image URL', type: 'text', placeholder: 'Image URL (optional)' },
+  ];
+
+  const handleChange = (field: string, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     mutation.mutate({
-      name,
-      notes: notes || null,
-      image_url: image || null,
+      name: form.name,
+      notes: form.notes || null,
+      image_url: form.image || null,
     });
-
-    setName('');
-    setNotes('');
-    setImage('');
+    setForm({ name: '', notes: '', image: '' });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 max-w-sm">
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Exercise name"
-        required
-        className="border p-2 rounded"
-      />
-
-      <textarea
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-        placeholder="Notes (optional)"
-        className="border p-2 rounded"
-      />
-
-      <input
-        value={image}
-        onChange={(e) => setImage(e.target.value)}
-        placeholder="Image URL (optional)"
-        className="border p-2 rounded"
-      />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm">
+      {fields.map((f) => (
+        <InputField
+          key={f.name}
+          label={f.label}
+          value={form[f.name as keyof typeof form]}
+          onChange={(val) => handleChange(f.name, val)}
+          placeholder={f.placeholder}
+          type={f.type as 'text' | 'textarea'}
+          required={f.required}
+        />
+      ))}
 
       <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
         Add Exercise

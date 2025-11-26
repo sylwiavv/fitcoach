@@ -6,7 +6,7 @@ export const MainLayout = () => {
   return (
     <div className="min-h-screen text-eerieBlack grid grid-cols-[200px_minmax(900px,_1fr)_100px]">
       <Navbar />
-      <main className="p-8">
+      <main className="p-8 max-w-2xl">
         <Outlet />
       </main>
     </div>

@@ -1,3 +1,3 @@
-import { YearlyProgressChart } from '../../widgets/YearlyProgressChart/YearlyProgressChart';
+import { YearlyClientsChart } from '../../widgets/YearlyProgressChart/YearlyProgressChart';
 
-export const DashboardPage: React.FC = () => <YearlyProgressChart workouts={[]} />;
+export const DashboardPage: React.FC = () => <YearlyClientsChart />;

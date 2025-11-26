@@ -5,7 +5,7 @@ import type { Clients } from '../clients/types';
 import type { Client } from './types';
 
 export const fetchClients = async (): Promise<Client[]> => {
-  const { data, error } = await supabase.from('Clients').select('*');
+  const { data, error } = await supabase.from('Clients').select('*').eq('archived', false);
   if (error) throw new Error(error.message);
   return data;
 };

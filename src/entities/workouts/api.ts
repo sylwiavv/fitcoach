@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { supabase } from '../../shared/lib/supabase';
 import type { Exercise } from '../exercises/types';
+import type { AddWorkoutPayload } from './types';
 
 export const ensureClientWorkoutExists = async (clientId: string, date: string) => {
   const { data, error } = await supabase
@@ -244,3 +245,49 @@ export const useAddWorkout = () => {
     },
   });
 };
+
+export const markWorkoutCompleted = async ({
+  workoutId,
+  completed,
+}: {
+  workoutId: string;
+  completed: boolean;
+}) => {
+  const { data, error } = await supabase
+    .from('ClientWorkouts')
+    .update({ completed })
+    .eq('id', workoutId)
+    .select();
+
+  if (error) throw new Error(error.message);
+  return data;
+};
+
+export const useMarkWorkoutCompleted = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: markWorkoutCompleted,
+    onSuccess: (_, vars) => {
+      queryClient.invalidateQueries(['workouts', vars.clientId]);
+    },
+  });
+};
+
+export const fetchWorkout = async (clientId: string, date: string) => {
+  const { data, error } = await supabase
+    .from('ClientWorkouts')
+    .select('*')
+    .eq('client_id', clientId)
+    .eq('date', date)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+};
+
+export const useWorkout = (clientId: string, date: string) =>
+  useQuery({
+    queryKey: ['workout', clientId, date],
+    queryFn: () => fetchWorkout(clientId, date),
+  });

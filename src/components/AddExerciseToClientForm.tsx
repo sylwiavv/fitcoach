@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { useExercises } from '../entities/exercises/api';
 import { useAssignExerciseToClient } from '../entities/workouts/api';
+import { InputField } from '../shared/ui/InputFIeld';
 
 type Props = {
   clientId: string;
@@ -10,73 +11,73 @@ type Props = {
 
 const AddExerciseToClient: React.FC<Props> = ({ clientId, date }) => {
   const { data: exercisesData, isLoading, isError, error } = useExercises();
-
-  const [exerciseId, setExerciseId] = useState('');
-  const [sets, setSets] = useState(3);
-  const [reps, setReps] = useState(10);
-  const [load, setLoad] = useState(0);
-  const [notes, setNotes] = useState('');
-
   const mutation = useAssignExerciseToClient();
+
+  const [form, setForm] = useState({
+    exerciseId: '',
+    sets: 3,
+    reps: 10,
+    load: 0,
+    notes: '',
+  });
+
+  const update = (field: string, value: any) => setForm((prev) => ({ ...prev, [field]: value }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutation.mutate({ clientId, date, exerciseId, sets, reps, load, notes });
+    mutation.mutate({ clientId, date, ...form });
   };
 
   if (isLoading) return <div>Loading exercises...</div>;
   if (isError)
     return <div className="text-red-500">Error fetching exercises: {(error as Error).message}</div>;
 
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm">
-      <select
-        value={exerciseId}
-        onChange={(e) => setExerciseId(e.target.value)}
-        required
-        className="border p-2 rounded"
-      >
-        <option value="">Select exercise...</option>
-        {exercisesData?.map((ex) => (
-          <option key={ex.id} value={ex.id}>
-            {ex.name}
-          </option>
-        ))}
-      </select>
+  const numericFields = [
+    { key: 'sets', label: 'Sets', type: 'number', min: 1 },
+    { key: 'reps', label: 'Reps', type: 'number', min: 1 },
+    { key: 'load', label: 'Load (kg)', type: 'number', min: 0 },
+  ];
 
-      <input
-        type="number"
-        value={sets}
-        onChange={(e) => setSets(Number(e.target.value))}
-        min={1}
-        className="border p-2 rounded"
-        placeholder="Sets"
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm">
+      <InputField
+        label="Exercise"
+        type="select"
+        value={form.exerciseId}
+        onChange={(value) => update('exerciseId', value)}
+        required
+        placeholder="Select exercise..."
+        options={exercisesData?.map((ex) => ({
+          value: ex.id,
+          label: ex.name,
+        }))}
       />
-      <input
-        type="number"
-        value={reps}
-        onChange={(e) => setReps(Number(e.target.value))}
-        min={1}
-        className="border p-2 rounded"
-        placeholder="Reps"
-      />
-      <input
-        type="number"
-        value={load}
-        onChange={(e) => setLoad(Number(e.target.value))}
-        min={0}
-        className="border p-2 rounded"
-        placeholder="Load (kg)"
-      />
-      <textarea
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-        className="border p-2 rounded"
-        placeholder="Notes (optional)"
-      />
+
+      {form.exerciseId && (
+        <>
+          {numericFields.map((f) => (
+            <InputField
+              key={f.key}
+              label={f.label}
+              type={f.type as 'number'}
+              value={form[f.key as keyof typeof form] as number}
+              onChange={(val) => update(f.key, val)}
+              min={f.min}
+            />
+          ))}
+
+          <InputField
+            label="Notes"
+            type="textarea"
+            value={form.notes}
+            onChange={(val) => update('notes', val)}
+            placeholder="Optional notes..."
+          />
+        </>
+      )}
 
       <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
-        Add Exercise to Client
+        Add Exercise to Workout
       </button>
     </form>
   );

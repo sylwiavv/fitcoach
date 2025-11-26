@@ -4,4 +4,6 @@ export interface Client {
   name: string;
   avatar: string;
   progress: number;
+  created_at: Date;
+  archived: boolean;
 }

@@ -33,6 +33,10 @@ export const router = createBrowserRouter([
         path: '/exercises',
         element: <ExercisesPage />,
       },
+      {
+        path: '/client/:clientId/add-workout',
+        element: <AddWorkoutPage />,
+      },
     ],
   },
 ]);
