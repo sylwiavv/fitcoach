@@ -14,7 +14,7 @@ const AddWorkoutPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { data: clients = [], isLoading } = useClients();
+  const { data: clients = [] } = useClients();
   const createWorkoutMutation = useCreateWorkoutForDay();
 
   const [selectedClientId, setSelectedClientId] = useState<string>(paramClientId || '');

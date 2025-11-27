@@ -1,6 +1,12 @@
 import { supabase } from '../../../shared/lib/supabase';
 
-export const createWorkoutForDay = async ({ clientId, date }: { clientId: string; date: Date }) => {
+export const createWorkoutForDay = async ({
+  clientId,
+  date,
+}: {
+  clientId: string;
+  date: string;
+}) => {
   const { data: existingWorkout, error } = await supabase
     .from('ClientWorkouts')
     .select('*')

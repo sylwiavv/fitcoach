@@ -7,6 +7,7 @@ import type { Value } from 'react-calendar/dist/shared/types.js';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import ProgressBar from '../../components/ProgressBar';
+import TwoColorAvatar from '../../components/TwoColorAvatar';
 import { useClient } from '../../entities/clients/model/queries';
 import { useWorkoutsByClient } from '../../entities/workout';
 import { BackButton } from '../../shared/ui';
@@ -27,7 +28,9 @@ const ClientPage: React.FC = () => {
   };
 
   const { data: client, isLoading, isError, error } = useClient(clientId);
+  const { avatar, name, created_at } = client || {};
   const { data: workouts = [] } = useWorkoutsByClient(clientId);
+
   const handleDayClick = (value: Date) => {
     const dateStr = formatDate(value);
     setDate(value);
@@ -62,11 +65,19 @@ const ClientPage: React.FC = () => {
     <>
       <BackButton />
 
-      <div className="flex items-center gap-8">
-        {client?.avatar && (
-          <img src={client.avatar} alt={client.name} className="w-20 h-20 rounded-full mb-4" />
-        )}
-        <h1 className="text-2xl font-bold mb-6 text-eerieBlack">{client?.name}</h1>
+      <div className="flex items-center gap-4 mb-6 bg-[#f7f6f9] p-4 rounded-4xl">
+        {avatar && <TwoColorAvatar avatar={avatar} size={120} />}
+        <div>
+          <h1 className="text-2xl font-bold  text-eerieBlack">{name}</h1>
+          <span>
+            From {''}
+            {new Date(created_at as Date).toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            })}
+          </span>
+        </div>
       </div>
 
       {Object.entries(workoutsByMonth).map(([monthKey, monthWorkouts]) => {

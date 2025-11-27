@@ -21,7 +21,6 @@ export const ExercisesInWorkout = () => {
 
       {workoutExercises.map((ex) => (
         <li key={ex.id} className="flex justify-between items-center">
-          {console.log(ex)}
           <span>
             {ex.exercise?.name} — {ex.sets}×{ex.reps} {ex.load ? `, ${ex.load}kg` : ''}
           </span>

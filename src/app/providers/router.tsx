@@ -20,7 +20,6 @@ export const router = createBrowserRouter([
       { path: '/client/:clientId', element: <ClientPage /> },
       { path: '/clients/add', element: <AddClientPage /> },
       { path: '/add-exercise', element: <AddExercisePage /> },
-      { path: '/add-workout', element: <AddWorkoutPage /> },
       {
         path: '/clients/:clientId/:date/add-exercise',
         element: <AddExercisePage />,
@@ -37,6 +36,7 @@ export const router = createBrowserRouter([
         path: '/client/:clientId/add-workout',
         element: <AddWorkoutPage />,
       },
+      { path: '/add-workout', element: <AddWorkoutPage /> },
     ],
   },
 ]);

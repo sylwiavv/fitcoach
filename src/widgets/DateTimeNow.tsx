@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
 
+export const formatCustomDate = (date: Date) => {
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+};
+
 const DateTimeNow = () => {
   const [now, setNow] = useState(new Date());
 
@@ -13,13 +21,6 @@ const DateTimeNow = () => {
 
   const today = new Date();
 
-  const formatCustomDate = (date: Date) => {
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  };
   return (
     <div className="flex flex-col">
       <div className="text-xs text-gray-500">{formatCustomDate(today)}</div>
