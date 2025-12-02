@@ -1,14 +1,30 @@
 import { useNavigate } from 'react-router-dom';
 
+import { BackIcon } from '../../app/assets/icons';
+
 export const BackButton = () => {
   const navigate = useNavigate();
 
   return (
     <button
       onClick={() => navigate(-1)}
-      className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 hover:cursor-pointer mb-5"
+      className="
+        group flex items-center gap-1 justify-between 
+        px-4 py-2 bg-gray-200 rounded 
+        hover:bg-gray-300 hover:cursor-pointer 
+        mb-5 uppercase text-xs font-extrabold
+      "
     >
-      ← Back
+      <span
+        className="
+          inline-block 
+          transition-transform duration-300 ease-in-out
+          group-hover:-translate-x-1 group-hover:animate-pulse
+        "
+      >
+        <BackIcon />
+      </span>
+      Back
     </button>
   );
 };

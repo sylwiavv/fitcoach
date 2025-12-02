@@ -1,0 +1,15 @@
+export const colors = {
+  vanilla: '#f0f0a4',
+  eerieBlack: '#212121',
+  honeyDew: '#dbedd6',
+  aliceBlue: '#d9dfe9',
+  ghostWhite: '#f6f6f9',
+  darkViolet: '#aa92f6',
+  darkViolet2: '#8d74d4',
+  lightViolet: '#e3dcfa',
+  lightViolet2: '#d6cfed',
+  ghostGrey: '#f7f6f9',
+  borderColor: '#ececf0',
+  red: '#f75655',
+  lightRed: '#ffcdcc',
+};

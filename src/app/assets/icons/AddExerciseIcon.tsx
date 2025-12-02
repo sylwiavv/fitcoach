@@ -1,6 +1,6 @@
 import type { IconProps } from '.';
 
-const AddExercise = ({ className, ...props }: IconProps) => (
+const AddExerciseIcon = ({ className, ...props }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={30}
@@ -22,4 +22,4 @@ const AddExercise = ({ className, ...props }: IconProps) => (
   </svg>
 );
 
-export default AddExercise;
+export default AddExerciseIcon;

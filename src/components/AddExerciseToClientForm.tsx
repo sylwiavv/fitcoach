@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useExercises } from '../entities/exercises/model/queries';
 import { useAssignExerciseToClient } from '../entities/workout';
 import { InputField } from '../shared/ui/InputFIeld';
+import PrimaryButton from './PrimaryButton';
 
 type Props = {
   clientId: string;
@@ -39,7 +40,7 @@ const AddExerciseToClient: React.FC<Props> = ({ clientId, date }) => {
   ];
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <InputField
         label="Exercise"
         type="select"
@@ -76,9 +77,9 @@ const AddExerciseToClient: React.FC<Props> = ({ clientId, date }) => {
         </>
       )}
 
-      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
-        Add Exercise to Workout
-      </button>
+      <PrimaryButton type="submit">
+        <b>+</b> Add Exercise to Workout
+      </PrimaryButton>
     </form>
   );
 };

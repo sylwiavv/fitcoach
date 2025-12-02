@@ -11,7 +11,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ completed, total }) => {
   return (
     <div className="w-full bg-gray-200 h-6 rounded-full overflow-hidden">
       <div
-        className="h-6 bg-green-500 text-white text-center text-sm"
+        className="h-6 bg-dark-violet text-white text-center text-sm"
         style={{ width: `${percentage}%` }}
       >
         {completed}/{total}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import PrimaryButton from '../../components/PrimaryButton';
 import { useAddClient } from '../../entities/clients/model/queries';
 
 const AddClientPage: React.FC = () => {
@@ -44,20 +45,22 @@ const AddClientPage: React.FC = () => {
           className="border p-2 rounded"
         />
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded"
-          disabled={addClientMutation.isPending}
-        >
-          {addClientMutation.isPending ? 'Adding...' : 'Add Client'}
-        </button>
+        <PrimaryButton disabled={addClientMutation.isPending}>
+          {addClientMutation.isPending ? (
+            'Adding...'
+          ) : (
+            <>
+              <b>+</b> Add Client
+            </>
+          )}
+        </PrimaryButton>
 
         {addClientMutation.isError && (
-          <p className="text-red-500 mt-2">Error: {(addClientMutation.error as Error).message}</p>
+          <p className="text-red mt-2">Error: {(addClientMutation.error as Error).message}</p>
         )}
 
         {addClientMutation.isSuccess && (
-          <p className="text-green-500 mt-2">Client added successfully!</p>
+          <p className="text-bg-dark-violet mt-2">Client added successfully!</p>
         )}
       </form>
     </div>

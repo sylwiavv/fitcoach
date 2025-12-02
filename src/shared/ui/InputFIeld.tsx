@@ -1,5 +1,7 @@
 import React from 'react';
 
+import CustomSelect from './CustomSelect';
+
 type Option = {
   value: string;
   label: string;
@@ -8,7 +10,7 @@ type Option = {
 type InputFieldProps = {
   label: string;
   value: string | number;
-  onChange: (value: string) => void;
+  onChange: (value: string | number) => void;
   placeholder?: string;
   type?: 'text' | 'number' | 'textarea' | 'select';
   required?: boolean;
@@ -28,7 +30,7 @@ export const InputField: React.FC<InputFieldProps> = ({
 }) => {
   return (
     <label className="flex flex-col gap-1">
-      <span className="font-medium text-gray-700">{label}</span>
+      <span className="font-extrabold text-gray-700 uppercase text-xs">{label}</span>
 
       {type === 'textarea' ? (
         <textarea
@@ -39,19 +41,12 @@ export const InputField: React.FC<InputFieldProps> = ({
           className="border-2 border-gray-300 p-3 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
         />
       ) : type === 'select' ? (
-        <select
+        <CustomSelect
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          required={required}
-          className="border-2 border-gray-300 p-3 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-        >
-          <option value="">{placeholder || 'Select...'}</option>
-          {options.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+          onChange={onChange}
+          options={options}
+          placeholder={placeholder || 'Select...'}
+        />
       ) : (
         <input
           type={type}

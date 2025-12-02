@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import { CompletedIcon, UnCheckedIcon } from '../app/assets';
+import { CompletedIcon, UnCheckedIcon } from '../app/assets/icons';
 import { useMarkExerciseCompleted, useWorkoutExercises } from '../entities/workout';
 
 export const ExercisesInWorkout = () => {

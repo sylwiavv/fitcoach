@@ -1,15 +1,21 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
-import { CompletedIcon, UnCheckedIcon } from '../../app/assets';
+import { CompletedIcon, UnCheckedIcon } from '../../app/assets/icons';
 import AddExerciseToClientForm from '../../components/AddExerciseToClientForm';
 import { ExercisesInWorkout } from '../../components/ExercisesInWorkout';
 import TwoColorAvatar from '../../components/TwoColorAvatar';
 import { useClient } from '../../entities/clients/model/queries';
 import { useMarkWorkoutCompleted, useWorkout, useWorkoutExercises } from '../../entities/workout';
+import { BackButton } from '../../shared/ui';
 
 const AddExerciseToClientPage: React.FC = () => {
   const { clientId, date } = useParams<{ clientId: string; date: string }>();
+  const queryClient = useQueryClient();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const open = query.get('open') === 'true';
 
   if (!clientId || !date) return <div>Client or date not found</div>;
 
@@ -22,11 +28,22 @@ const AddExerciseToClientPage: React.FC = () => {
 
   const handleToggleWorkout = (completed: boolean) => {
     if (!workout) return;
-    markWorkoutCompleted.mutate({ workoutId: workout.id, completed });
-  };
 
+    markWorkoutCompleted.mutate(
+      { workoutId: workout.id, completed },
+      {
+        onSuccess: () => {
+          queryClient.setQueryData(['workout', clientId, date], {
+            ...workout,
+            completed,
+          });
+        },
+      },
+    );
+  };
   return (
     <div className="container">
+      <BackButton />
       <div className="mb-4 flex justify-between">
         <div className="flex items-center gap-4 ">
           {avatar && <TwoColorAvatar avatar={avatar} size={100} />}
@@ -40,7 +57,9 @@ const AddExerciseToClientPage: React.FC = () => {
 
       <div className="f7f6f9">
         {workout && (
-          <div className="flex items-center gap-2 mb-4 p-3 bg-vanilla rounded-md">
+          <div
+            className={`not-only:flex items-center justify-between gap-2 mb-4 p-3 ${workout?.completed ? 'bg-honey-dew' : 'bg-light-red'} rounded-md`}
+          >
             <span className="font-medium">
               {workout.completed ? 'Workout completed' : 'Workout uncompleted'}
             </span>
@@ -68,8 +87,18 @@ const AddExerciseToClientPage: React.FC = () => {
             <ExercisesInWorkout />
           )}
         </div>
-        <h2 className="text-xl font-semibold mt-6">Add new exercises:</h2>
-        <AddExerciseToClientForm clientId={clientId} date={date} />
+        <div
+          className={`
+    shadow mt-6 bg-ghost-grey p-4 rounded-main
+    relative
+    after:absolute after:inset-0 after:bg-gray-800/10 after:rounded-main after:pointer-events-none after:content-[""]
+    after:transition-all after:duration-300 after:ease-in-out
+    ${open ? 'after:opacity-100 after:scale-100' : 'after:opacity-0 after:scale-95'}
+  `}
+        >
+          <h2 className="text-xl font-semibold mb-3">Add new exercises:</h2>
+          <AddExerciseToClientForm clientId={clientId} date={date} />
+        </div>
       </div>
     </div>
   );

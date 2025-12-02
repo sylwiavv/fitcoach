@@ -1,6 +1,7 @@
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import type { Workout } from '../../entities/workout/model/types';
+import { colors } from '../../shared/lib/colors';
 
 type MonthlyProgressChartProps = {
   workouts?: Workout[];
@@ -31,17 +32,30 @@ export const MonthlyProgressChart: React.FC<MonthlyProgressChartProps> = ({
   });
 
   return (
-    <div className="h-64 bg-white p-4 rounded shadow mt-6">
+    <div className="bg-ghost-grey p-6 rounded-main">
       <h2 className="text-lg font-semibold mb-4">Annual progress ({year})</h2>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="completed" fill="#f0f0a4" />
-          <Bar dataKey="planned" fill="#777b7e" />
-        </BarChart>
-      </ResponsiveContainer>
+      <div className="h-64 bg-white p-4 rounded shadow mt-6">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data}>
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip
+              contentStyle={{
+                borderRadius: '0.5rem',
+                padding: '0.5rem',
+                border: `1px solid ${colors.borderColor}`,
+                boxShadow: `0px 1px 2px ${colors.borderColor}`,
+              }}
+              labelStyle={{
+                color: colors.eerieBlack,
+                fontWeight: '700',
+              }}
+            />
+            <Bar dataKey="completed" fill={colors.darkViolet} />
+            <Bar dataKey="planned" fill={colors.lightViolet2} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

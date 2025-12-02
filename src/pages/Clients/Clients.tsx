@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import AddClientButton from '../../components/AddClientButton';
 import type { Client } from '../../entities/client/types';
 import { useClients } from '../../entities/clients/model/queries';
+import SectionHeader from '../../shared/ui/SectionHeader';
 
 const ClientsPage: React.FC = () => {
   const { data: clients, isLoading, isError, error } = useClients();
@@ -55,19 +56,19 @@ const ClientsPage: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold mb-4">Clients</h1>
+      <SectionHeader title="Active Clients" description="See how many active clients you have." />
+
       <div className="flex gap-2 items-center justify-end">
         <AddClientButton />
-        <h4>Add new Client</h4>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-alice-blue p-4 rounded-2xl">
+      <div className="overflow-x-auto ">
+        <table className="min-w-full border-dark-violet">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="px-4 py-2 text-left border-b border-ghost-white">
+                  <th key={header.id} className="px-4 py-2 text-left border-b border-dark-violet">
                     {header.isPlaceholder
                       ? null
                       : flexRender(header.column.columnDef.header, header.getContext())}
@@ -80,11 +81,11 @@ const ClientsPage: React.FC = () => {
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="cursor-pointer hover:bg-vanilla"
+                className="cursor-pointer hover:bg-light-violet transition-colors"
                 onClick={() => navigate(`/client/${row.original.id}`)}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-2 border-b border-ghost-white">
+                  <td key={cell.id} className="px-4 py-2 border-b border-dark-violet">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

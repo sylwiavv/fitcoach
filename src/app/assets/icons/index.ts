@@ -1,4 +1,5 @@
-export { default as AddExercise } from './AddExercise';
+export { default as AddExerciseIcon } from './AddExerciseIcon';
+export { default as BackIcon } from './BackIcon';
 export { default as ClientsIcon } from './ClientsIcon';
 export { default as CompletedIcon } from './CompletedIcon';
 export { default as DashboardIcon } from './DashboardIcon';

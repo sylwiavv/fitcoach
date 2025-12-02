@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { useAddExercise } from '../entities/exercises/model/queries';
 import { InputField } from '../shared/ui/InputFIeld';
+import PrimaryButton from './PrimaryButton';
 
 const AddExerciseForm: React.FC = () => {
   const [form, setForm] = useState({ name: '', notes: '', image: '' });
@@ -19,7 +20,7 @@ const AddExerciseForm: React.FC = () => {
     { name: 'image', label: 'Image URL', type: 'text', placeholder: 'Image URL (optional)' },
   ];
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: string, value: string | number) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -34,7 +35,13 @@ const AddExerciseForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm">
+    <form
+      onSubmit={handleSubmit}
+      className={`
+        flex flex-col gap-4 max-w-sm relative
+
+      `}
+    >
       {fields.map((f) => (
         <InputField
           key={f.name}
@@ -46,10 +53,9 @@ const AddExerciseForm: React.FC = () => {
           required={f.required}
         />
       ))}
-
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-        Add Exercise
-      </button>
+      <PrimaryButton>
+        <b>+</b> Add Exercise
+      </PrimaryButton>
     </form>
   );
 };

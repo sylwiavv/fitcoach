@@ -1,18 +1,16 @@
+import { colors } from './src/shared/lib/colors.js';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      colors: {
-        vanilla: '#f0f0a4',
-        eerieBlack: '#212121',
-        honeyDew: '#dbedd6',
-        aliceBlue: '#d9dfe9',
-        ghostWhite: '#f6f6f9',
-        ghostGrey: '#efefef',
-      },
+      colors,
       fontFamily: {
         sans: ['Urbanist', 'sans-serif'],
+      },
+      borderRadius: {
+        main: '2rem',
       },
       fontSize: {
         heading2: ['36px', { fontWeight: '700' }],

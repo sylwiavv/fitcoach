@@ -7,10 +7,8 @@ const AddExercisePage: React.FC = () => {
   return (
     <>
       <BackButton />
-      <>
-        <h1 className="text-2xl font-bold mb-4">Add Exercise</h1>
-        <AddExerciseForm />
-      </>
+      <h2 className="text-2xl font-bold mb-4 text-upper">Add Exercise</h2>
+      <AddExerciseForm />
     </>
   );
 };
