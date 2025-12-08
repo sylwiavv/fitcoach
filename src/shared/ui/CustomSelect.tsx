@@ -14,7 +14,6 @@ export default function CustomSelect({ value, onChange, options, placeholder }: 
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // jeśli w URL jest ?open=true to dropdown jest od razu otwarty
   useEffect(() => {
     const paramOpen = searchParams.get('open');
     if (paramOpen === 'true') setOpen(true);
@@ -47,6 +46,9 @@ export default function CustomSelect({ value, onChange, options, placeholder }: 
 
   const handleOnClick = (opt: { value: string | number; label: string }) => {
     onChange(opt.value);
+
+    setOpen(false);
+
     searchParams.delete('open');
     setSearchParams(searchParams, { replace: true });
   };

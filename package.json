@@ -40,6 +40,7 @@
     "vite": "^7.2.2"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@supabase/supabase-js": "^2.81.1",
     "@tanstack/react-query": "^5.90.8",
     "@tanstack/react-table": "^8.21.3",
@@ -48,8 +49,10 @@
     "react": "^18.2.0",
     "react-calendar": "^6.0.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.68.0",
     "react-router-dom": "^7.9.5",
     "react-table": "^7.8.0",
-    "recharts": "^3.4.1"
+    "recharts": "^3.4.1",
+    "yup": "^1.7.1"
   }
 }

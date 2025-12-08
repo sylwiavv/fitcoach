@@ -54,6 +54,6 @@ export type AssignExercisePayload = {
   exerciseId: string;
   sets: number;
   reps: number;
-  load: number;
-  notes?: string | null;
+  load?: number;
+  notes?: string;
 };

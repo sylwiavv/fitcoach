@@ -3,8 +3,8 @@ import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
 import { CompletedIcon, UnCheckedIcon } from '../../app/assets/icons';
-import AddExerciseToClientForm from '../../components/AddExerciseToClientForm';
 import { ExercisesInWorkout } from '../../components/ExercisesInWorkout';
+import AddExerciseToClientForm from '../../components/forms/AddExerciseToClient/AddExerciseToClientForm';
 import TwoColorAvatar from '../../components/TwoColorAvatar';
 import { useClient } from '../../entities/clients/model/queries';
 import { useMarkWorkoutCompleted, useWorkout, useWorkoutExercises } from '../../entities/workout';
@@ -50,7 +50,7 @@ const AddExerciseToClientPage: React.FC = () => {
           <h1 className="text-2xl font-bold mb-6 text-eerieBlack">{name}</h1>
         </div>
         <div>
-          <span className="text-xl">Workout</span>
+          <span className="text-xl text-light-violet2">Workout</span>
           <h1 className="text-3xl font-bold">{date}</h1>
         </div>
       </div>
