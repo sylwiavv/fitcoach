@@ -69,7 +69,7 @@ export const Navbar = () => {
                   className={`
                     w-6 h-6 flex items-center
                     transition-transform duration-300 ease-in-out
-                    ${!isActive ? 'group-hover:-translate-x-1 group-hover:animate-pulse' : ''}
+                    ${!isActive ? 'group-hover:-translate-x-1' : ''}
                   `}
                 >
                   {icon}

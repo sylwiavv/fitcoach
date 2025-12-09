@@ -31,7 +31,7 @@ export const RHFInputField: React.FC<RHFInputFieldProps> = ({
   const { control } = useFormContext();
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 p-2">
       <label className="font-extrabold text-gray-700 uppercase text-xs">{label}</label>
 
       <Controller

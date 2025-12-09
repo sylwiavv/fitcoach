@@ -30,7 +30,7 @@ export const InputField: React.FC<InputFieldProps> = ({
 }) => {
   return (
     <label className="flex flex-col gap-1">
-      <span className="font-extrabold text-gray-700 uppercase text-xs">{label}</span>
+      <span className="font-extrabold text-gray-700 uppercase text-xs pl-1">{label}</span>
 
       {type === 'textarea' ? (
         <textarea

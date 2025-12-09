@@ -2,6 +2,7 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 
 import type { Workout } from '../../entities/workout/model/types';
 import { colors } from '../../shared/lib/colors';
+import SectionHeader from '../../shared/ui/SectionHeader';
 
 type MonthlyProgressChartProps = {
   workouts?: Workout[];
@@ -33,7 +34,10 @@ export const MonthlyProgressChart: React.FC<MonthlyProgressChartProps> = ({
 
   return (
     <div className="bg-ghost-grey p-6 rounded-main">
-      <h2 className="text-lg font-semibold mb-4">Annual progress ({year})</h2>
+      <SectionHeader
+        title={`Annual Progress (${year})`}
+        description="See how many workouts your client has planned and completed."
+      />
       <div className="h-64 bg-white p-4 rounded shadow mt-6">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>

@@ -10,9 +10,9 @@ export const BackButton = () => {
       onClick={() => navigate(-1)}
       className="
         group flex items-center gap-1 justify-between 
-        px-4 py-2 bg-gray-200 rounded 
-        hover:bg-gray-300 hover:cursor-pointer 
-        mb-5 uppercase text-xs font-extrabold
+        px-4 py-2 bg-light-violet rounded 
+        hover:bg-light-violet2 hover:cursor-pointer 
+        mb-12 uppercase text-xs font-extrabold
       "
     >
       <span

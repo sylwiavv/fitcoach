@@ -44,8 +44,8 @@ export type AddWorkoutPayload = {
 
 export type NewExercise = {
   name: string;
-  notes?: string | null;
-  image_url?: string | null;
+  notes?: string | '';
+  image_url?: string | '';
 };
 
 export type AssignExercisePayload = {

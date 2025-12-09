@@ -62,8 +62,8 @@ const ClientsPage: React.FC = () => {
         <AddClientButton />
       </div>
 
-      <div className="overflow-x-auto ">
-        <table className="min-w-full border-dark-violet">
+      <div className="overflow-x-auto bg-ghost-grey rounded-xl p-4 ">
+        <table className="min-w-full">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
@@ -81,11 +81,11 @@ const ClientsPage: React.FC = () => {
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="cursor-pointer hover:bg-light-violet transition-colors"
+                className="cursor-pointer hover:bg-light-violet transition-colors  last:border-yellow-200"
                 onClick={() => navigate(`/client/${row.original.id}`)}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-2 border-b border-dark-violet">
+                  <td key={cell.id} className="px-4 py-2 border-b border-dark-violet  ">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

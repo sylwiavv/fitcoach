@@ -62,7 +62,7 @@ export default function CustomSelect({ value, onChange, options, placeholder }: 
           w-full bg-white border-2 border-dark-violet rounded-md py-2 px-3 text-left
           flex justify-between items-center
           transition-all duration-200 ease-in-out
-          hover:border-dark-violet2 hover:cursor-pointer
+          hover:border-dark-violet1 hover:cursor-pointer
           focus:outline-none focus:ring-dark-violet2
         "
       >

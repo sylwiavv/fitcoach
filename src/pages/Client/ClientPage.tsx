@@ -11,6 +11,7 @@ import TwoColorAvatar from '../../components/TwoColorAvatar';
 import { useClient } from '../../entities/clients/model/queries';
 import { useWorkoutsByClient } from '../../entities/workout';
 import { BackButton } from '../../shared/ui';
+import SectionHeader from '../../shared/ui/SectionHeader';
 import { MonthlyProgressChart } from '../../widgets/MonthlyProgressChart/MonthlyProgressChart';
 
 const ClientPage: React.FC = () => {
@@ -65,52 +66,63 @@ const ClientPage: React.FC = () => {
     <>
       <BackButton />
 
-      <div className="flex items-center gap-4 mb-6 bg-[#f7f6f9] p-4 rounded-4xl">
-        {avatar && <TwoColorAvatar avatar={avatar} size={120} />}
-        <div>
-          <h1 className="text-2xl font-bold  text-eerieBlack">{name}</h1>
-          <span>
-            From {''}
-            {new Date(created_at as Date).toLocaleDateString('en-GB', {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-            })}
-          </span>
+      <div className="p-4 rounded-4xl bg-white mb-6">
+        <div className="flex items-center gap-4 bg-ghost-grey p-4 rounded-4xl">
+          {avatar && <TwoColorAvatar avatar={avatar} size={120} />}
+          <div>
+            <h1 className="text-2xl font-bold  text-eerieBlack">{name}</h1>
+            <span className="text-gray-500 text-sm">
+              From {''}
+              {new Date(created_at as Date).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+              })}
+            </span>
+          </div>
         </div>
       </div>
 
-      {Object.entries(workoutsByMonth).map(([monthKey, monthWorkouts]) => {
-        const totalPlanned = monthWorkouts.length;
-        const completedCount = monthWorkouts.filter((w) => w.completed).length;
-        const [year, month] = monthKey.split('-');
-        const monthName = new Date(Number(year), Number(month) - 1).toLocaleString('en-US', {
-          month: 'long',
-          year: 'numeric',
-        });
+      <div className="border-light-violet2 border rounded-main p-6 my-8">
+        {Object.entries(workoutsByMonth).map(([monthKey, monthWorkouts]) => {
+          const totalPlanned = monthWorkouts.length;
+          const completedCount = monthWorkouts.filter((w) => w.completed).length;
+          const [year, month] = monthKey.split('-');
+          const monthName = new Date(Number(year), Number(month) - 1).toLocaleString('en-US', {
+            month: 'long',
+            year: 'numeric',
+          });
 
-        return (
-          <div key={monthKey} className="mb-4">
-            <h2 className="text-lg font-semibold mb-1">Progress for {monthName}</h2>
-            <ProgressBar completed={completedCount} total={totalPlanned} />
-          </div>
-        );
-      })}
+          return (
+            <div key={monthKey} className="mb-4">
+              <h2 className="text-lg font-semibold mb-1">Progress for {monthName}</h2>
+              <ProgressBar completed={completedCount} total={totalPlanned} />
+            </div>
+          );
+        })}
+      </div>
 
       <MonthlyProgressChart workouts={workouts} />
 
-      <div className="calendar-container bg-ghost-white p-6 rounded-2xl shadow-md mt-6">
-        <Calendar
-          onChange={handleDateChange}
-          value={date}
-          onClickDay={handleDayClick}
-          prev2Label={null}
-          next2Label={null}
-          tileClassName={({ date }) => {
-            const dateStr = formatDate(date);
-            return workouts.some((w) => w.date === dateStr) ? 'has-training' : '';
-          }}
+      <div className="bg-white mt-8 p-6 rounded-main">
+        <SectionHeader
+          title="Let's plan a training session"
+          description="Create a new workout or select an existing one to view details."
         />
+
+        <div className="calendar-container bg-ghost-white p-6 rounded-2xl shadow-md mt-6">
+          <Calendar
+            onChange={handleDateChange}
+            value={date}
+            onClickDay={handleDayClick}
+            prev2Label={null}
+            next2Label={null}
+            tileClassName={({ date }) => {
+              const dateStr = formatDate(date);
+              return workouts.some((w) => w.date === dateStr) ? 'has-training' : '';
+            }}
+          />
+        </div>
       </div>
     </>
   );
