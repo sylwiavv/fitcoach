@@ -1,5 +1,8 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   AddExerciseIcon,
@@ -7,23 +10,22 @@ import {
   DashboardIcon,
   FitnesIcon,
   WorkoutIcon,
-} from '../../../app/assets/icons';
-import Exercises from '../../../app/assets/icons/Exercises';
+} from '../../../shell/assets/icons';
+import Exercises from '../../../shell/assets/icons/Exercises';
 import DateTimeNow from '../../DateTimeNow';
 
 export const Navbar = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
 
   const links = [
-    { to: '/', label: 'Dashboard', icon: <DashboardIcon /> },
-    { to: '/clients', label: 'Clients', icon: <ClientsIcon /> },
-    { to: '/add-workout', label: 'Add Workout', icon: <WorkoutIcon /> },
-    { to: '/add-exercise', label: 'Add Exercise', icon: <AddExerciseIcon /> },
-    { to: '/exercises', label: 'Exercises', icon: <Exercises /> },
+    { href: '/', label: 'Dashboard', icon: <DashboardIcon /> },
+    { href: '/clients', label: 'Clients', icon: <ClientsIcon /> },
+    { href: '/add-workout', label: 'Add Workout', icon: <WorkoutIcon /> },
+    { href: '/add-exercise', label: 'Add Exercise', icon: <AddExerciseIcon /> },
+    { href: '/exercises', label: 'Exercises', icon: <Exercises /> },
   ];
 
-  const activeIndex = links.findIndex((link) => link.to === location.pathname);
+  const activeIndex = links.findIndex((link) => link.href === pathname);
   const [gliderPosition, setGliderPosition] = useState(activeIndex);
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export const Navbar = () => {
   }, [activeIndex]);
 
   return (
-    <div className="bg-alice-blue p-4">
+    <div className="bg-alice-blue p-4 flex flex-col min-h-screen">
       <div className="flex gap-2 items-center mb-12">
         <FitnesIcon />
         <h4 className="font-bold text-xl text-eerieBlack">FitCoach</h4>
@@ -41,7 +43,7 @@ export const Navbar = () => {
         <DateTimeNow />
       </div>
 
-      <div className="relative transition-all flex gap-2 flex-col">
+      <div className="relative transition-all flex gap-2 flex-col flex-1">
         {gliderPosition >= 0 && (
           <span
             className="absolute top-1 left-1 w-[calc(33.33%-0.5rem)] bg-honey-dew rounded-full transition-transform duration-300 ease-out"
@@ -51,16 +53,17 @@ export const Navbar = () => {
           />
         )}
 
-        {links.map(({ to, label, icon }, index) => {
+        {links.map(({ href, label, icon }, index) => {
           const isActive = activeIndex === index;
 
           return (
-            <button
-              key={to}
-              onClick={() => navigate(to)}
+            <Link
+              key={href}
+              href={href}
+              prefetch
               className={`
                 group flex justify-between items-center relative z-10 rounded-sm w-full
-                py-2 px-4 transition-all duration-300 text-left
+                py-2 px-4 transition-all duration-300 text-left no-underline
                 ${isActive ? 'bg-dark-violet' : 'hover:bg-light-violet2 hover:cursor-pointer'}
               `}
             >
@@ -77,7 +80,7 @@ export const Navbar = () => {
 
                 <span className="text-base font-medium text-eerie-black">{label}</span>
               </div>
-            </button>
+            </Link>
           );
         })}
       </div>

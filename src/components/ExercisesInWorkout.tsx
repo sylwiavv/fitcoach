@@ -1,10 +1,14 @@
-import { useParams } from 'react-router-dom';
+'use client';
 
-import { CompletedIcon, UnCheckedIcon } from '../app/assets/icons';
+import { useParams } from 'next/navigation';
+
+import { CompletedIcon, UnCheckedIcon } from '../shell/assets/icons';
 import { useMarkExerciseCompleted, useWorkoutExercises } from '../entities/workout';
 
 export const ExercisesInWorkout = () => {
-  const { clientId, date } = useParams<{ clientId: string; date: string }>();
+  const params = useParams();
+  const clientId = typeof params.clientId === 'string' ? params.clientId : undefined;
+  const date = typeof params.date === 'string' ? params.date : undefined;
 
   if (!clientId || !date) return <div>Client or date not found</div>;
 
@@ -25,19 +29,13 @@ export const ExercisesInWorkout = () => {
             {ex.exercise?.name} — {ex.sets}×{ex.reps} {ex.load ? `, ${ex.load}kg` : ''}
           </span>
 
-          <label className="cursor-pointer relative flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={!!ex.completed}
-              onChange={(e) => handleToggleExercise(ex.id, e.target.checked)}
-              className="sr-only"
-            />
-            <span className="select-none">{ex.completed ? 'Completed' : 'Uncompleted'}</span>
-
-            <div className="w-6 h-6 flex items-center justify-center rounded-full bg-eerie-black">
-              {ex.completed ? <CompletedIcon /> : <UnCheckedIcon />}
-            </div>
-          </label>
+          <button
+            type="button"
+            onClick={() => handleToggleExercise(ex.id, !ex.completed)}
+            className="p-2 hover:bg-gray-100 rounded"
+          >
+            {ex.completed ? <CompletedIcon /> : <UnCheckedIcon />}
+          </button>
         </li>
       ))}
     </ul>

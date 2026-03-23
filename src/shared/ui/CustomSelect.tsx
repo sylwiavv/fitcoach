@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+'use client';
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface CustomSelectProps {
   value: string | number;
@@ -8,11 +10,22 @@ interface CustomSelectProps {
   placeholder?: string;
 }
 
-export default function CustomSelect({ value, onChange, options, placeholder }: CustomSelectProps) {
+const CustomSelect = ({ value, onChange, options, placeholder }: CustomSelectProps) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const replaceQuery = useCallback(
+    (mutate: (p: URLSearchParams) => void) => {
+      const params = new URLSearchParams(searchParams.toString());
+      mutate(params);
+      const qs = params.toString();
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    },
+    [router, pathname, searchParams],
+  );
 
   useEffect(() => {
     const paramOpen = searchParams.get('open');
@@ -23,34 +36,28 @@ export default function CustomSelect({ value, onChange, options, placeholder }: 
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setOpen(false);
-        searchParams.delete('open');
-        setSearchParams(searchParams, { replace: true });
+        replaceQuery((p) => p.delete('open'));
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [searchParams, setSearchParams]);
+  }, [replaceQuery]);
 
   const selected = options.find((opt) => opt.value === value);
 
   const handleToggle = () => {
     const newOpen = !open;
     setOpen(newOpen);
-    if (newOpen) {
-      searchParams.set('open', 'true');
-    } else {
-      searchParams.delete('open');
-    }
-    setSearchParams(searchParams, { replace: true });
+    replaceQuery((p) => {
+      if (newOpen) p.set('open', 'true');
+      else p.delete('open');
+    });
   };
 
   const handleOnClick = (opt: { value: string | number; label: string }) => {
     onChange(opt.value);
-
     setOpen(false);
-
-    searchParams.delete('open');
-    setSearchParams(searchParams, { replace: true });
+    replaceQuery((p) => p.delete('open'));
   };
 
   return (
@@ -101,4 +108,6 @@ export default function CustomSelect({ value, onChange, options, placeholder }: 
       </div>
     </div>
   );
-}
+};
+
+export default CustomSelect;

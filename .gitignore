@@ -13,4 +13,7 @@ psd
 thumb
 sketch
 .env
+.env*.local
 node_modules/
+.next/
+out/

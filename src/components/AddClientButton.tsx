@@ -1,13 +1,15 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import PrimaryButton from './PrimaryButton';
 
 const AddClientButton: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleClick = () => {
-    navigate('/clients/add');
+    router.push('/clients/add');
   };
 
   return (

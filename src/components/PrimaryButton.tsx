@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 
-export default function PrimaryButton({
+const PrimaryButton = ({
   children,
   icon: Icon,
   ...props
 }: {
   children: React.ReactNode;
   icon?: ReactNode;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       {...props}
@@ -17,4 +17,6 @@ export default function PrimaryButton({
       {children}
     </button>
   );
-}
+};
+
+export default PrimaryButton;

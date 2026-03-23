@@ -18,7 +18,9 @@ export const fetchTrainingPlan = async (
 };
 
 export const useTrainingPlan = (clientId: string, date: string) => {
-  return useQuery(['trainingPlan', clientId, date], () => fetchTrainingPlan(clientId, date), {
+  return useQuery({
+    queryKey: ['trainingPlan', clientId, date],
+    queryFn: () => fetchTrainingPlan(clientId, date),
     staleTime: 5 * 60 * 1000,
   });
 };

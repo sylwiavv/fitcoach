@@ -1,7 +1,9 @@
+'use client';
+
 // AddWorkoutForm.tsx
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useClients } from '../../../entities/clients/model/queries';
 import { useCreateWorkoutForDay } from '../../../entities/workout';
@@ -15,17 +17,17 @@ interface Props {
 const AddWorkoutForm: React.FC<Props> = ({ initialClientId }) => {
   const { data: clients = [] } = useClients();
   const createWorkoutMutation = useCreateWorkoutForDay();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [selectedClientId, setSelectedClientId] = useState<string | number>(initialClientId || '');
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const queryDate = new URLSearchParams(location.search).get('date');
+    const queryDate = searchParams.get('date');
     if (queryDate) setSelectedDate(new Date(queryDate));
-  }, [location.search]);
+  }, [searchParams]);
 
   const handleSubmit = () => {
     if (!selectedClientId) {
@@ -41,7 +43,7 @@ const AddWorkoutForm: React.FC<Props> = ({ initialClientId }) => {
       { clientId: selectedClientId as string, date: formattedDate },
       {
         onSuccess: () => {
-          navigate(`/client/${selectedClientId}/training/${formattedDate}`);
+          router.push(`/client/${selectedClientId}/training/${formattedDate}`);
         },
       },
     );

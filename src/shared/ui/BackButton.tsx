@@ -1,13 +1,16 @@
-import { useNavigate } from 'react-router-dom';
+'use client';
 
-import { BackIcon } from '../../app/assets/icons';
+import { useRouter } from 'next/navigation';
+
+import { BackIcon } from '../../shell/assets/icons';
 
 export const BackButton = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <button
-      onClick={() => navigate(-1)}
+      type="button"
+      onClick={() => router.back()}
       className="
         group flex items-center gap-1 justify-between 
         px-4 py-2 bg-light-violet rounded 

@@ -1,4 +1,13 @@
+'use client';
+
 import { useEffect, useState } from 'react';
+
+const timeFormat: Intl.DateTimeFormatOptions = {
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false,
+};
 
 export const formatCustomDate = (date: Date) => {
   return date.toLocaleDateString('en-GB', {
@@ -9,9 +18,13 @@ export const formatCustomDate = (date: Date) => {
 };
 
 const DateTimeNow = () => {
-  const [now, setNow] = useState(new Date());
+  /** Avoid hydration mismatch: SSR and first client paint must not render a live clock. */
+  const [mounted, setMounted] = useState(false);
+  const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
+    setMounted(true);
+    setNow(new Date());
     const interval = setInterval(() => {
       setNow(new Date());
     }, 1000);
@@ -23,8 +36,12 @@ const DateTimeNow = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-xs text-gray-500">{formatCustomDate(today)}</div>
-      <span className="text-2xl font-semibold">{now.toLocaleTimeString()}</span>
+      <div className="text-xs text-gray-500">
+        {mounted ? formatCustomDate(today) : '\u00a0'}
+      </div>
+      <span className="text-2xl font-semibold">
+        {mounted ? now.toLocaleTimeString('en-GB', timeFormat) : '--:--:--'}
+      </span>
     </div>
   );
 };

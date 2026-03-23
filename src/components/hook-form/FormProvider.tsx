@@ -1,3 +1,5 @@
+'use client';
+
 import { FormProvider as Form, type UseFormReturn } from 'react-hook-form';
 
 type Props = {
@@ -6,10 +8,12 @@ type Props = {
   onSubmit?: VoidFunction;
 };
 
-export default function FormProvider({ children, onSubmit, methods }: Props) {
+const FormProvider = ({ children, onSubmit, methods }: Props) => {
   return (
     <Form {...methods}>
       <form onSubmit={onSubmit}>{children}</form>
     </Form>
   );
-}
+};
+
+export default FormProvider;

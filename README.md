@@ -1,73 +1,33 @@
-# React + TypeScript + Vite
+# FitCoach — Next.js 16 + React 19
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Getting started
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+cp .env.example .env.local   # fill in NEXT_PUBLIC_SUPABASE_*
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Dev:** [http://localhost:3000](http://localhost:3000)
+- **Production:** `npm run build` → `npm start`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Structure
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **`src/app/`** — App Router (Next.js routes). Screen-level UI lives in **`src/views/`** (Next reserves `src/pages/` for the Pages Router).
+- **`src/shell/`** — app shell (MainLayout, icons, calendar styles).
+- **`src/entities/`**, **`src/components/`**, **`src/widgets/`**, **`src/shared/`** — same FSD-style split as before.
+
+## Performance & caching (Next)
+
+- **`next.config.ts`:** `experimental.optimizePackageImports` (recharts, TanStack Table, react-calendar, dayjs), `experimental.staleTimes` (client router cache), `turbopack.root`.
+- **Root layout:** `next/font/google` (Urbanist, `display: swap`, preload).
+- **`(main)/layout`:** `dynamic = 'force-dynamic'` (Supabase + React Query on the client; no misleading static generation without env).
+- **`loading.tsx`:** loading UI + `Suspense` around `{children}`.
+- **Navbar:** `<Link prefetch>` instead of only `router.push`.
+- **React Query:** `staleTime` / `gcTime` / `refetchOnWindowFocus: false` in `src/app/providers.tsx`.
+
+## Environment variables
+
+Vite used `VITE_SUPABASE_*`. Now use **`NEXT_PUBLIC_SUPABASE_URL`** and **`NEXT_PUBLIC_SUPABASE_ANON_KEY`** (see `.env.example`).
+
+Build can still succeed without real keys (placeholders in `next.config` / Supabase client); set real values in production.
